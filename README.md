@@ -7,7 +7,7 @@ Adding Your OWN Commands
 
 ### Whats the structure?
 
-```kotlin
+```java
 class <Your class here> : Command() 
 {
 override fun execute(event: CommandEvent)  
@@ -32,7 +32,7 @@ requiredRole = "<Role Name>" // String
 ```
 ### Example
 
-```kotlin
+```java
 class Skip : Command() {  
   
   override fun execute(event: CommandEvent) {  
