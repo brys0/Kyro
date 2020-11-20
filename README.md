@@ -1,6 +1,7 @@
-## Kyro 
+![Kyro](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
 The simple music bot written in Kotlin
-!()
+
+
 > Note: This is entirely open source and is in **no case** under any sort of warranty and special service 
 
 Adding Your OWN Commands
