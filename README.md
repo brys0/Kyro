@@ -1,4 +1,4 @@
-![Kyro](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+![Kyro](https://github.com/brys0/Kyro/blob/main/preloader.gif?raw=true)
 The simple music bot written in Kotlin
 
 
