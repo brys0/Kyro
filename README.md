@@ -1,6 +1,6 @@
 # Kyro 
-A simple music bot written in Kotlin
-
+### A simple music bot written in Kotlin
+![Logo](https://github.com/brys0/Kyro/blob/main/preloader.gif?raw=true)
 > Note: This is entirely open source and is in **no case** under any sort of warranty and special service 
 
 Adding Your OWN Commands
