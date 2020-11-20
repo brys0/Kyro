@@ -3,6 +3,12 @@
 ![Logo](https://github.com/brys0/Kyro/blob/main/preloader.gif?raw=true)
 > Note: This is entirely open source and is in **no case** under any sort of warranty and special service 
 
+
+
+### Where is the code?
+
+Each of the code commits are seperated by version you can find the code by clicking the **top branch** and selecting the different version based on what your needs are.
+
 Adding Your OWN Commands
 
 ### Whats the structure?
