@@ -1,3 +1,6 @@
+# KYRO
+
+
 ![Kyro](https://github.com/brys0/Kyro/blob/main/preloader.gif?raw=true)
 The simple music bot written in Kotlin
 
