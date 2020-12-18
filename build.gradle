@@ -98,7 +98,7 @@ compileKotlin {
 
 application {
     // Define the main class for the application.
-    mainClassName = 'brys.org.dev.src.Booter'
+    mainClassName = 'brys.org.dev.Booter'
 }
 java {
     sourceCompatibility = JavaVersion.VERSION_14

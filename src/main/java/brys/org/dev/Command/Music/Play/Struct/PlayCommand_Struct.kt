@@ -68,21 +68,14 @@ class PlayCommand_Struct() {
                 return
             } else {
                 val api = Spotify.getTrack(event.args)
-                val image = Spotify.getRawTrack(event.args)?.album?.images?.get(0)
-                val url = Spotify.getRawTrack(event.args)?.id
-                val ablumname = Spotify.getRawTrack(event.args)?.album?.name
-                val pop = Spotify.getRawTrack(event.args)?.popularity
-                if (url != null) {
-                    if (image != null) {
-                        if (ablumname != null) {
-                            if (pop != null) {
-                                YouTube.spotifyTrackQueued(java.lang.String.join(" ", api), event,image, url, ablumname, pop)
-                            }
-                        }
-                    }
+                val raw = Spotify.getRawTrack(event.args)
+                event.reply("Am i al;ive")
+                raw?.album?.images?.get(0)?.let {
+                    YouTube.spotifyTrackQueued(java.lang.String.join(" ", api), event,
+                        it, "https://open.spotify.com/track/${raw.id}", raw.album.name, raw.popularity)
                 }
-                return
             }
+            return
         }
 
         if (event.isOwner) {

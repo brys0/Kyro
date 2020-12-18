@@ -13,6 +13,6 @@ import io.github.cdimascio.dotenv.Dotenv
 object AUTH {
     private val dotenv = Dotenv.load()
     operator fun get(key: String?): String? {
-        return brys.org.dev.Authenicator.AUTH.dotenv[key?.toUpperCase().toString()]
+        return dotenv[key?.toUpperCase().toString()]
     }
 }
