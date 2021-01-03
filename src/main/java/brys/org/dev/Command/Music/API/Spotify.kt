@@ -18,11 +18,11 @@ import com.jagrosh.jdautilities.command.CommandEvent
 object Spotify {
     val uniapi = AUTH["spotify_public"]?.let { AUTH["spotify_private"]?.let { it1 -> spotifyAppApi(it, it1).build() } }
     /**
-     * Takes a trackname string and returns the track name to be searched by [YouTube]
+     * Takes a trackname string and returns the track name to be searched by [YouTubeBasic]
      */
     fun getTrack(args: String): String? {
-        val parseid = args.replace("https://open.spotify.com/track/", "")
-        val returns = uniapi?.tracks?.getTrack(parseid)?.complete()?.name
+        val converted = args.replace("https://open.spotify.com/track/", "")
+        val returns = uniapi?.tracks?.getTrack(converted)?.complete()?.name
         return returns
     }
     /**
@@ -41,9 +41,9 @@ object Spotify {
         return returns?.get(0)
     }
     /**
-     * Gets and calls [YouTube] to execute searching of each track name
+     * Gets and calls [YouTubeBasic] to execute searching of each track name
      */
-    fun getPlaylistTracks(args: String, event: CommandEvent): String {
+    fun runPlaylistTracks(args: String, event: CommandEvent): String {
         val parseid = args.replace("https://open.spotify.com/playlist/", "")
         val returns = uniapi?.playlists?.getPlaylist(parseid)?.complete()
         val embedtest = ""
@@ -51,7 +51,7 @@ object Spotify {
                 val track = returns.tracks[i]
                val trackidName =  track.track?.id?.let { getTrack(it) }
                 if (trackidName != null) {
-                    YouTube.spotifySearched("$trackidName",event)
+                    YouTubeBasic.spotifySearched("$trackidName",event)
                 }
                 return embedtest
         }

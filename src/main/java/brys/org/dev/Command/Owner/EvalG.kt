@@ -4,6 +4,7 @@ package brys.org.dev.Command.Owner
 
 import brys.org.dev.Authenicator.AUTH
 import brys.org.dev.Command.Music.API.Spotify
+import brys.org.dev.Kyro.KyroUtils
 import brys.org.dev.Music_Handles.Manager.PlayerManager
 import brys.org.dev.src.Command.Music.Lyric.API.KSoft
 import com.github.ajalt.mordant.TermColors
@@ -58,13 +59,14 @@ class EvalG : Command() {
             engine.setProperty("queue", queue)
             engine.setProperty("player", player)
             engine.setProperty("s", s)
-            engine.setProperty("SpotifyParse", Spotify)
+            engine.setProperty("SpotifyParser", Spotify)
             engine.setProperty("Ksoft", KSoft)
+            engine.setProperty("KyroUtils", KyroUtils)
             val script = imports + event?.args
             val outS = engine.evaluate(script)
-            val convertedPackage = if (outS == null) "Void" else outS.javaClass.packageName
-            val convertedType = if (outS == null) "Void" else outS.javaClass.typeName
-            val out = if(outS == null) "Void" else brys.org.dev.Authenicator.AUTH.get("token")?.let { outS.toString().replace(it, "Tok3n", true) }
+            val convertedPackage = if (outS == null) "null" else outS.javaClass.packageName
+            val convertedType = if (outS == null) "null" else outS.javaClass.typeName
+            val out = if(outS == null) "null" else brys.org.dev.Authenicator.AUTH.get("token")?.let { outS.toString().replace(it, "Tok3n", true) }
             val SuccessEmbed = EmbedBuilder()
                 .setTitle("Success Evaluation:")
                 .addField("Input:", "```yaml\n" + event?.message?.contentRaw?.split("""(?U)\s+""".toRegex()) + "\n```", true)

@@ -7,6 +7,10 @@
  */
 package brys.org.dev.Music_Handles.Scheduler
 
+import brys.org.dev.Settings.GuildSettings
+import brys.org.dev.lib.Util.AudioUtil.Events.trackEvent
+import brys.org.dev.lib.Util.AudioUtil.Events.trackExceptionHandler
+import brys.org.dev.lib.Util.AudioUtil.Events.trackStuckHandler
 import com.github.ajalt.mordant.TermColors
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEvent
@@ -26,8 +30,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.sound.midi.Track
 
-class TrackScheduler(private val player: AudioPlayer, guild: Guild, tx: TextChannel, req: User) : AudioEventAdapter(), AudioEventListener {
-    val req: User = req
+class TrackScheduler(private val player: AudioPlayer, guild: Guild, tx: TextChannel) : AudioEventAdapter(), AudioEventListener {
     val tx: TextChannel = tx
     val guild: Guild = guild
     private var repeating = false
@@ -44,20 +47,23 @@ var queueRepeat = false
             channel.sendMessage("An error occurred most likely this is because the requested song is age restricted.")
         }
     }
-
+    /**
+     * Track Exceptions
+     */
     override fun onTrackException(player: AudioPlayer, track: AudioTrack, exception: FriendlyException) {
-        tx.sendMessage("The track encountred a exception. (${exception.message})").queue()
+      return trackExceptionHandler(player, track, exception, tx)
     }
 
     override fun onTrackStuck(player: AudioPlayer, track: AudioTrack, thresholdMs: Long) {
-        tx.sendMessage("Track got stuck at `${formatTime(thresholdMs)}`").queue()
-        nextTrack()
+        return trackStuckHandler(player, track, thresholdMs, tx)
     }
 
     fun nextTrack() {
         player.startTrack(queue.poll(), false)
     }
-
+    /**
+     * Track events
+     */
     override fun onTrackEnd(player: AudioPlayer, track: AudioTrack, endReason: AudioTrackEndReason) {
         this.lastTrack = track;
         if (endReason.mayStartNext) {
@@ -67,33 +73,12 @@ var queueRepeat = false
                 nextTrack();
         }
     }
-
-    override fun onTrackStart(player: AudioPlayer?, track: AudioTrack?) {
-        println(TermColors().blue("────────────────────Track────────────────────"))
-        println(" ${TermColors().brightMagenta}Track ${track?.info?.title}, now playing in ${guild.name}")
-        println(TermColors().blue("─────────────────────────────────────────────"))
-        try {
-        player?.isPaused = false
-        if (current == null || current!!.identifier != track?.identifier) {
-            current = track
-            val durString = if (track?.info?.isStream == true) "LIVE" else track?.info?.length?.let { formatTime(it) }
-            val queueOrNot = if (queue.peek() == null) "None" else "[${queue.peek().info.title}](${queue.peek().info.uri})"
-            val NowPlayingEmb = EmbedBuilder()
-                .setAuthor("Now Playing")
-                .setTitle(track?.info?.title,track?.info?.uri)
-                .setColor(Color.decode("#8293EE"))
-                .addField("Duration",durString,true)
-                .addField("Channel", track?.info?.author, true)
-                .addField("Next Up",queueOrNot,true)
-                .setThumbnail("https://i.ytimg.com/vi/" + track?.info?.uri?.replace("https://www.youtube.com/watch?v=", "") + "/maxresdefault.jpg")
-                .setFooter("Requested By: ${req.asTag}", req.effectiveAvatarUrl)
-                .build()
-            tx.sendMessage(NowPlayingEmb).queue()
-        }
-    } catch (e: NullPointerException) {
-        tx.sendMessage("A error occured when getting the now playing event for this track.").queue()
-
-        }    }
+    override fun onTrackStart(player: AudioPlayer, track: AudioTrack) {
+       trackEvent(player, track, tx, queue)
+    }
+    /**
+     * Custom functions
+     */
     @JvmName("setRepeating1")
     fun setRepeating(repeating: Boolean) {
         this.repeating = repeating
@@ -116,7 +101,6 @@ var queueRepeat = false
     }
 
     fun skip(number: Int) {
-        println("a")
         for (i in 0 until number) removeT(0)
     }
     fun queueAsLinked(): MutableList<AudioTrack> {
@@ -152,9 +136,6 @@ var queueRepeat = false
             }
         }
     }
-fun requester(): User {
-    return req
-}
     init {
         queue = LinkedList()
     }

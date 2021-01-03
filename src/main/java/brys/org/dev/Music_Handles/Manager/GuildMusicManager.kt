@@ -21,9 +21,8 @@ class GuildMusicManager(val manager: AudioPlayerManager, guild: Guild, tx: TextC
     val audioPlayer: AudioPlayer = manager.createPlayer()
     var scheduler: TrackScheduler? = null
     val sendHandler: AudioPlayerSendHandler
-
     init {
-        scheduler = TrackScheduler(audioPlayer, guild, tx, req)
+        scheduler = TrackScheduler(audioPlayer, guild, tx)
         audioPlayer.addListener(this.scheduler)
         sendHandler = AudioPlayerSendHandler(this.audioPlayer)
     }

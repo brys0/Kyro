@@ -36,6 +36,7 @@ class Skip : Command() {
         val membervcchannel = membervcstate!!.channel
         val self = event.selfMember
         val selfVoiceState = self.voiceState
+
         if (s?.isRepeating()!!) {
             event.reply("I cannot skip a currently repeating track!")
             return

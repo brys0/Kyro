@@ -147,6 +147,10 @@ object  KyroUtils {
         prevTicks = cpu.systemCpuLoadTicks
         return cpuLoad
     }
+    fun spiltString(string: String, regex: String): List<String> {
+       val spilt =  string.split(regex.toRegex())
+        return spilt
+    }
     }
 
 

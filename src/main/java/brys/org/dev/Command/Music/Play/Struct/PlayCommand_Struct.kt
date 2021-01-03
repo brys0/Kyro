@@ -9,13 +9,17 @@
 package brys.org.dev.Command.Music.Play.Struct
 
 
+import brys.org.dev.Authenicator.AUTH
+import brys.org.dev.Command.Music.API.Player
 import brys.org.dev.Command.Music.API.Spotify
-import brys.org.dev.Command.Music.API.YouTube
+import brys.org.dev.Command.Music.API.YouTubeBasic
 import com.jagrosh.jdautilities.command.CommandEvent
 import net.dv8tion.jda.api.Permission
 import java.lang.Exception
 import java.lang.IllegalArgumentException
 import java.lang.UnsupportedOperationException
+import brys.org.dev.Command.Music.API.YouTube
+import brys.org.dev.lib.Util.isUrl
 
 class PlayCommand_Struct() {
     fun play_struct(event: CommandEvent) {
@@ -29,16 +33,16 @@ class PlayCommand_Struct() {
             return c.sendMessage("A song name or url is required!").queue()
         }
         if (!membervcstate.inVoiceChannel()) {
-            return c.sendMessage(">~< I can't see you in a channel I can connect to UnU").queue()
+            return c.sendMessage("I can't see you in a voice channel I can join `ERR: NULL VOICE_CHANNEL`").queue()
         }
         if (!event.guild.selfMember.hasPermission(Permission.VOICE_CONNECT)) {
-            return c.sendMessage("OwO Can i pwease have the voice connect permission :point_right: :point_left:").queue()
+            return c.sendMessage("I don't have permission to speak in this voice channel `ERR: MISSING_PERMISSION`").queue()
         }
         if (!event.guild.selfMember.hasPermission(Permission.MESSAGE_EMBED_LINKS)) {
-            return c.sendMessage(">n< looks wike I can't use my adorabwle embeds..").queue()
+            return c.sendMessage("I don't have permission to use embeds `ERR: MISSING_PERMISSION`").queue()
         }
         if (!event.guild.selfMember.hasPermission(Permission.VOICE_SPEAK)) {
-            return c.sendMessage(":c someone stopped me from spweaking ono").queue()
+            return c.sendMessage("I don't have permission to speak in this voice channel `ERR: MISSING_PERMISSION`").queue()
         }
         if (!audioManager.isConnected) {
             try {
@@ -68,29 +72,32 @@ class PlayCommand_Struct() {
                 return
             } else {
                 val api = Spotify.getTrack(event.args)
-                val raw = Spotify.getRawTrack(event.args)
-                event.reply("Am i al;ive")
-                raw?.album?.images?.get(0)?.let {
-                    YouTube.spotifyTrackQueued(java.lang.String.join(" ", api), event,
-                        it, "https://open.spotify.com/track/${raw.id}", raw.album.name, raw.popularity)
+                val image = Spotify.getRawTrack(event.args)?.album?.images?.get(0)
+                val url = Spotify.getRawTrack(event.args)?.id
+                val ablumname = Spotify.getRawTrack(event.args)?.album?.name
+                val pop = Spotify.getRawTrack(event.args)?.popularity
+                if (url != null) {
+                    if (image != null) {
+                        if (ablumname != null) {
+                            if (pop != null) {
+                                YouTubeBasic.spotifyTrackQueued(java.lang.String.join(" ", api), event,image, url, ablumname, pop)
+                            }
+                        }
+                    }
                 }
+                return
             }
-            return
         }
-
-        if (event.isOwner) {
-            YouTube.ytSearched(java.lang.String.join(" ", args), event)
-            return
-        }
-        if(event.args.contains("/http(?:s:\\/\\/(?:1(?:92\\.168|72\\.)|2001:)|:\\/\\/(?:192\\.168|2001:))|1(?:92\\.168|72\\.)|2001:?/".toRegex())) {
+        if(event.args.contains("/http(?:s:(?:1(?:92\\.168|72\\.)|2001:)|:(?:192\\.168|2001:))|1(?:92\\.168|72\\.)|2001:?/".toRegex())) {
             event.reply("You can't play local files on the network or public ftp server files!")
             return
         }
-        if (event.args.startsWith("--force")) {
-            YouTube.playNowYtSearched(java.lang.String.join(" ", args.toString().replace("--force", "")), event)
+        if (isUrl(java.lang.String.join(" ", args)) == true) {
+            Player.queue(java.lang.String.join(" ", args), event.textChannel, event.author, false)
             return
+        } else
+        AUTH["youtube_key"]?.let { YouTube.query(java.lang.String.join(" ", args), 1, it) }?.let { Player.queue(it[1-1], event.textChannel, event.author, false) }
         }
-            YouTube.ytSearched(java.lang.String.join(" ", args), event)
-        }
+
     }
 

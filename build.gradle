@@ -17,6 +17,7 @@ buildscript {
         id 'org.springframework.boot' version "2.1.2.RELEASE"
         id 'org.jetbrains.kotlin.plugin.spring' version "1.4.21"
         id 'org.jetbrains.kotlin.plugin.jpa' version "1.4.21"
+        id 'org.jetbrains.kotlin.plugin.serialization' version '1.4.21'
     }
     apply plugin: "com.github.johnrengelman.shadow"
     repositories {
@@ -50,11 +51,7 @@ buildscript {
         implementation group: 'org.codehaus.groovy', name: 'groovy-jsr223', version: '3.0.5'
         compile group: 'org.bodil.openjdk', name: 'nashorn', version: '0.1.0.2013070801'
         implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-        implementation 'org.litote.kmongo:kmongo-reactor:4.2.0'
-        implementation 'org.litote.kmongo:kmongo-rxjava2:4.2.0'
-        implementation 'org.litote.kmongo:kmongo-coroutine:4.2.0'
-        implementation 'org.litote.kmongo:kmongo-async:4.2.0'
-        implementation 'org.litote.kmongo:kmongo:4.2.0'
+        implementation 'org.litote.kmongo:kmongo:4.2.3'
         implementation 'com.kcthota:emoji4j:6.0'
         compile 'joda-time:joda-time:2.10.8'
         compile group: 'me.duncte123', name: 'botCommons', version: '1.0.45'
@@ -65,10 +62,13 @@ buildscript {
         compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.4.0'
         compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.4.0'
         compile group: 'org.springframework.boot', name: 'spring-boot-gradle-plugin', version: '2.4.0'
-        compile group: 'log4j', name: 'log4j', version: '1.2.17'
         compile 'se.michaelthelin.spotify:spotify-web-api-java:6.5.1'
-        compile group: 'com.adamratzman', name: 'spotify-api-kotlin-core', version: '3.2.14'
-
+        implementation 'com.adamratzman:spotify-api-kotlin:3.2.14'
+        compile("be.bluexin:drpc4k:0.9")
+        compile group: 'de.jollyday', name: 'jollyday', version: '0.5.10'
+        compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.0'
+        compile group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
+        compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
     }
 configurations.all {
     exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'

@@ -73,7 +73,6 @@ val trackCount = queue?.size?.let { it.coerceAtMost(10) }
                    "%s `%s` - **%s**\n",
                    "`#${i + 1}` - [${info.title}](${info.uri})",
                    formatTime(info.length),
-                  musicm.scheduler!!.requester().asTag
            ))
             if (!queueTrackInfo.isValidLength) {
                 queueTrackInfo.toString().substring(0, 2048) + "..."

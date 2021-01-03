@@ -1,6 +1,7 @@
 package brys.org.dev.lib.Util
 
 import brys.org.dev.Kyro.Kyro
+import brys.org.dev.lib.Util.Log.LogMethods
 import com.github.ajalt.mordant.TermColors
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.OnlineStatus
@@ -15,20 +16,18 @@ import java.util.*
 
 fun cli(api: JDA) {
     GcLogUtil.startLoggingGc()
-    val formatter = SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z")
-    val date = Date(System.currentTimeMillis())
 
         val t = TermColors()
         fun clihelp() {
                           println(t.green("┌──────────────────────────────────────────────CLI───────────────────────────────────────────────┐"))
-                          println(t.green("│ ${t.brightRed}Stats:${t.reset} Brings you the status and amount of guilds for the bot (Additional info coming soon!)   │"))
-                          println(t.green("│ ${t.brightRed}Shutdown:${t.reset} Shutdown the bot and finish rest actions                                             │"))
-                          println(t.green("│ ${t.brightRed}Restart:${t.reset} Restarts the bot and main process                                                     │"))
-                          println(t.green("│ ${t.brightRed}Help:${t.reset} Shows this message again                                                                 │"))
-                          println(t.green("│ ${t.brightRed}change-status${t.reset} {status}: Changes the bots status for discord                                    │"))
-                          println(t.green("│ ${t.brightRed}oauth:${t.reset} Generates the bots oauth url                                                            │"))
-                          println(t.green("│ ${t.brightRed}guild-invite${t.reset} {guildid}: Generates a invite for the guild via id                                │"))
-                          println(t.green("│ ${t.brightRed}gc:${t.reset} Calls System.gc() Which makes the jvm attempt to garbage collect whenever convinent        │"))
+                          println(" ${t.brightRed}Stats:${t.reset} Brings you the status and amount of guilds for the bot (Additional info coming soon!)   ")
+                          println(" ${t.brightRed}Shutdown:${t.reset} Shutdown the bot and finish rest actions                                             ")
+                          println(" ${t.brightRed}Restart:${t.reset} Restarts the bot and main process                                                     ")
+                          println(" ${t.brightRed}Help:${t.reset} Shows this message again                                                                 ")
+                          println(" ${t.brightRed}change-status${t.reset} {status}: Changes the bots status for discord                                    ")
+                          println(" ${t.brightRed}oauth:${t.reset} Generates the bots oauth url                                                            ")
+                          println(" ${t.brightRed}guild-invite${t.reset} {guildid}: Generates a invite for the guild via id                                ")
+                          println(" ${t.brightRed}gc:${t.reset} Calls System.gc() Which makes the jvm attempt to garbage collect whenever convinent        ")
                           println(t.green("└────────────────────────────────────────────────────────────────────────────────────────────────┘"))
         }
 
@@ -126,6 +125,7 @@ if (name == "export") {
     settings()
 }
         }
+
         clihelp()
         settings()
     }

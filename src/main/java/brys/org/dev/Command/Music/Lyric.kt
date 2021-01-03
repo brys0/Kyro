@@ -27,7 +27,7 @@ class lyric : Command(){
             return
         }
       if (event.args?.length!! > 2) {
-          val manLyrics = searchLyrics(event.args).lyrics
+          val manLyrics = if (searchLyrics(event.args)?.lyrics == null) "No lyrics were found." else searchLyrics(event.args)?.lyrics
           val pagesMl = ArrayList<brys.org.dev.Paginator.model.Page>()
           val ebM = EmbedBuilder()
           val lyriTetxM = manLyrics?.chunked(2048)
