@@ -70,7 +70,7 @@ val trackCount = queue?.size?.let { it.coerceAtMost(10) }
             val info = track.info
 
            val queueTrackInfo = queuebuild.appendDescription(String.format(
-                   "%s `%s` - **%s**\n",
+                   "%s `%s`\n",
                    "`#${i + 1}` - [${info.title}](${info.uri})",
                    formatTime(info.length),
            ))

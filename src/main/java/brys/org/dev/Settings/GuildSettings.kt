@@ -1,8 +1,7 @@
 package brys.org.dev.Settings
 
 
-import brys.org.dev.Mongo.ConnectionPoolListenerMongoDb
-import brys.org.dev.Mongo.client
+
 import ch.qos.logback.classic.LoggerContext
 
 import com.mongodb.BasicDBObject
@@ -19,13 +18,8 @@ import org.slf4j.LoggerFactory
 
 object GuildSettings {
     private var mongoCli: MongoClient? = null
+    val tbl =  MongoData.getGuildDB()
     fun addSetting(Name: String, Param: String, guild: String) {
-        val loggerContext = LoggerFactory.getILoggerFactory() as LoggerContext
-        val rootLogger = loggerContext.getLogger("org.mongodb.driver")
-        rootLogger.level = ch.qos.logback.classic.Level.OFF
-        mongoCli = MongoClient("127.0.0.1", 27017, )
-        val db = mongoCli!!.getDatabase("GuildSettings")
-        val tbl = db.getCollection("Guild")
         val doc = BasicDBObject()
         doc["Guild"] = guild
         doc[Name] = Param
@@ -39,9 +33,6 @@ object GuildSettings {
         }
     }
     fun findSetting(guildId: String): Document? {
-        mongoCli = MongoClient("127.0.0.1", 27017)
-        val db = mongoCli!!.getDatabase("GuildSettings")
-        val tbl = db.getCollection("Guild")
         val qry = BasicDBObject()
         qry["Guild"] = guildId
         return tbl.findOne(qry)
@@ -52,22 +43,19 @@ object GuildSettings {
         return db.getCollection("Guild")
     }
     fun wipe(guildId: String) {
-        mongoCli = MongoClient("127.0.0.1", 27017)
-        val db = mongoCli!!.getDatabase("GuildSettings")
-        val tbl = db.getCollection("Guild")
         val qry = BasicDBObject()
         qry["Guild"] = guildId
         tbl.deleteOne(qry)
     }
     fun guild(guild: String) {
-        mongoCli = MongoClient("127.0.0.1", 27017)
-        val db = mongoCli!!.getDatabase("GuildSettings")
-        val tbl = db.getCollection("Guild")
         val doc = BasicDBObject()
         doc["Guild"] = guild
             tbl.insertOne(doc.json)
             return
         }
+    fun unset(guildId: String, unset: String, existing: String) {
+        findSetting(guildId)?.remove(unset, existing)
+    }
     }
 
 

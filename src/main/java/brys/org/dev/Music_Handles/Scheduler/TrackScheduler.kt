@@ -115,12 +115,6 @@ var queueRepeat = false
         val h = queuem.add(final, tmp)
         return tmp
     }
-    private fun formatTime(timeInMillis: Long): String {
-        val hours = timeInMillis / TimeUnit.HOURS.toMillis(1)
-        val minutes = timeInMillis / TimeUnit.MINUTES.toMillis(1)
-        val seconds = timeInMillis % TimeUnit.MINUTES.toMillis(1) / TimeUnit.SECONDS.toMillis(1)
-        return String.format("%02d:%02d:%02d", hours, minutes, seconds)
-    }
     fun removeT(index: Int): AudioTrack? {
        val list =  queueAsLinked()
        val remove = list.removeAt(index)

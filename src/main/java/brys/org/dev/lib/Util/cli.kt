@@ -15,8 +15,6 @@ import java.util.*
 
 
 fun cli(api: JDA) {
-    GcLogUtil.startLoggingGc()
-
         val t = TermColors()
         fun clihelp() {
                           println(t.green("┌──────────────────────────────────────────────CLI───────────────────────────────────────────────┐"))
@@ -125,7 +123,6 @@ if (name == "export") {
     settings()
 }
         }
-
         clihelp()
         settings()
     }

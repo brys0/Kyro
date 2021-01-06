@@ -4,13 +4,18 @@ package brys.org.dev.lib.Util.RequiredUtil
 
 
 import brys.org.dev.Music_Handles.Manager.PlayerManager
+import brys.org.dev.Settings.GuildSettings
 import brys.org.dev.lib.Util.AudioUtil.AudioChecks.isPlaying
 import brys.org.dev.lib.Util.AudioUtil.AudioChecks.memberConnected
 import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
-    abstract class KyroCommand(): Command() {
+import net.dv8tion.jda.api.Permission
+import net.dv8tion.jda.api.entities.Role
+
+abstract class KyroCommand(): Command() {
         var playingReq: Boolean = false;
         var memberConnectedReq: Boolean = false;
+        var djReq: Boolean = false;
         override fun run(event: CommandEvent) {
             val playerManager = PlayerManager.instance
             val GMM = playerManager!!.getGuildMusicManager(event.guild, event.textChannel, event.author)
@@ -25,6 +30,11 @@ import com.jagrosh.jdautilities.command.CommandEvent
           } else if (memberConnectedReq && memberConnected(event)) {
               return execute(event);
           }
+            if (djReq and event.message.member!!.roles.stream().anyMatch{ r: Role -> r.id == GuildSettings.findSetting(event.guild.id)?.get("DjRole")?.toString()}) {
+               return execute(event)
+            } else if (djReq and event.message.member!!.roles.stream().anyMatch{ r: Role -> r.id != GuildSettings.findSetting(event.guild.id)?.get("DjRole")?.toString()}) {
+               return event.reply("A DJ role is required to use this command.")
+                }
             execute(event);
         }
     }

@@ -17,7 +17,6 @@ object GcLogUtil {
     val t = TermColors()
     val Gc =  t.rgb("#EF2929")
     fun startLoggingGc() {
-        println("$Gc [GC] - Logger Activated.")
         for (gcMbean in ManagementFactory.getGarbageCollectorMXBeans()) {
             try {
                 ManagementFactory.getPlatformMBeanServer()
